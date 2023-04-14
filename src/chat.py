@@ -106,7 +106,7 @@ if __name__ == "__main__":
 
         # Prompting the user to submit a new prompt without sensitive data if sensitive data is present
         if has_sensitive_data:
-            print('Your prompt appears to have sensitive data in the body of the text. Please remove this sensitive data and submit a new prompt.')
+            print('Your prompt appears to have sensitive data in the body of the text. Please remove this sensitive data and submit a new prompt.\n')
             continue
 
         # Appending the user prompt to the chat flow
