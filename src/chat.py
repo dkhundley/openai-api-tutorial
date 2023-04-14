@@ -52,6 +52,11 @@ def check_sensitive_data(user_prompt):
     # Establishing a bit of regex to catch social security numbers
     ssn_regex = r'\b(?!000)(?!666)(?!9\d{2})\d{3}[-]?(?!00)\d{2}[-]?(?!0000)\d{4}\b'
 
+    # Checking to see if there is a match based on the regex
+    has_sensitive_data = bool(re.search(ssn_regex, user_prompt))
+
+    return has_sensitive_data
+
 def prompt_next_choice():
     '''
     Prompts the user to continue the current conversation, start a new conversation, or end the program
