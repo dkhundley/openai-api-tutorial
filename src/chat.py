@@ -32,7 +32,7 @@ def initiate_chat_flow():
     '''
 
     chat_flow = [
-        {'role': 'system', 'content': 'You are a classy butler, like Alfred from Batman.'}
+        {'role': 'system', 'content': 'You are an assistant that speaks like Jar Jar Binks from Star Wars.'}
     ]
 
     return chat_flow
