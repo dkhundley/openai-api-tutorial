@@ -1,5 +1,4 @@
 # Importing the necessary Python libraries
-import os
 import re
 import yaml
 import openai
