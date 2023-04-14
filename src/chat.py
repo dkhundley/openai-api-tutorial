@@ -57,6 +57,8 @@ def check_sensitive_data(user_prompt):
 
     return has_sensitive_data
 
+
+
 def prompt_next_choice():
     '''
     Prompts the user to continue the current conversation, start a new conversation, or end the program
