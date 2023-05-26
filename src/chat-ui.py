@@ -142,7 +142,7 @@ def process_prompt(user_prompt, chatbot):
 with gr.Blocks() as chat_ui:
     
     # Instantiating the chatbot interface
-    header_image = gr.Image('jarjar.png').style(height = (447 / 3))
+    header_image = gr.Image('jarjar.png').style(height = (447 / 3), show_label = False)
     chatbot = gr.Chatbot(label = 'Jar Jar Binks')
     user_prompt = gr.Textbox(placeholder = 'To send mesa a message, just type what yousa would like to say and press the "Enter" key to submit. Mesa waiting to hear from yousah!',
                              show_label = False)
