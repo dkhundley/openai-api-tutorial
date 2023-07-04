@@ -92,7 +92,8 @@ def converse_amongst_philosophers(philosopher_1, philosopher_2, convo_topic, con
     philosopher_2_opener_prompt = f'''
     You are philosopher {philosopher_2} and are about to have a conversation with another philosopher, {philosopher_1}.
     The topic of conversation is {convo_topic}.
-    The other person has opened the conversation with the following: {philosopher_1_opener}.
+    The other person has opened the conversation with the following:
+    "{philosopher_1_opener}"
     Respond back accordingly.
     Do not continue as {philosopher_1}.
     Please keep your response concise.
