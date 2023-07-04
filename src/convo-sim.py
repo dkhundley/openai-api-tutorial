@@ -18,6 +18,9 @@ openai.api_key = keys_yaml['API_KEY']
 # Setting the OpenAI model selection (may adjust later to be user changeable for those lucky folks out there with GPT-4 access ;) )
 openai_model = 'gpt-3.5-turbo'
 
+# Setting the number of words to return in a response
+NUM_WORDS = 300
+
 
 
 ## PROMPT ENGINEERING
@@ -79,7 +82,7 @@ def converse_amongst_philosophers(philosopher_1, philosopher_2, convo_topic, con
     You are first to speak.
     Please give your opening as {philosopher_1}
     Do not continue as {philosopher_2}.
-    Please keep your opening under 500 words.
+    Please keep your opening under {NUM_WORDS} words.
     '''
 
     # Simulating the opening of the dialogue with philsopher 1 kicking things off
@@ -98,7 +101,7 @@ def converse_amongst_philosophers(philosopher_1, philosopher_2, convo_topic, con
     "{philosopher_1_opener}"
     Respond back accordingly.
     Do not continue as {philosopher_1}.
-    Please keep your response under 500 words.
+    Please keep your response under {NUM_WORDS} words.
     '''
 
     # Simulating the opening response from philosopher 2 on hearing philosopher 1's opening
@@ -121,7 +124,7 @@ def converse_amongst_philosophers(philosopher_1, philosopher_2, convo_topic, con
         "{philosopher_2_response}"
         Respond back accordingly.
         Do not continue as {philosopher_2}.
-        Plase keep your response under 500 words.
+        Plase keep your response under {NUM_WORDS} words.
         '''
 
         # Simulating the response from philosopher 1
@@ -138,7 +141,7 @@ def converse_amongst_philosophers(philosopher_1, philosopher_2, convo_topic, con
         "{philosopher_1_response}"
         Respond back accordingly.
         Do not continue as {philosopher_1}.
-        Plase keep your response under 500 words.
+        Plase keep your response under {NUM_WORDS} words.
         '''
 
         # Simulating the response from philosopher 2
@@ -158,7 +161,7 @@ def converse_amongst_philosophers(philosopher_1, philosopher_2, convo_topic, con
     "{philosopher_2_response}"
     It's time to bring this conversation to a close. Please give one final thought before closing.
     Do not continue as {philosopher_2}.
-    Please keep your response under 500 words.
+    Please keep your response under {NUM_WORDS} words.
     '''
 
     # Simulating the closer from philosopher 1
@@ -173,7 +176,7 @@ def converse_amongst_philosophers(philosopher_1, philosopher_2, convo_topic, con
     philosopher_2_closer_prompt = f'''
     {philosopher_1} is bringing the conversation to a close with this final remark:
     "{philosopher_1_closer}"
-    Please bring this conversation to a close and keep your response under 500 words.
+    Please bring this conversation to a close and keep your response under {NUM_WORDS} words.
     '''
 
     # Simulating the closer from philosopher 2
