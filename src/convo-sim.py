@@ -32,20 +32,22 @@ PHILOSOPHERS = [
     'Joseph Campbell',
     'Pete Holmes',
     'Ram Dass',
+    'Scott Adams',
     'Socrates'
 ]
 
 # Setting a list of comedians, just to be able to get better results from the model
 COMEDIANS = [
     'Duncan Trussell',
-    'Pete Holmes'
+    'Pete Holmes',
+    'Scott Adams'
 ]
 
 
 
 ## GRADIO HELPER FUNCTIONS
 ## ---------------------------------------------------------------------------------------------------------------------
-def converse_amongst_philosophers(philosopher_1, philosopher_2, convo_topic, convo_chatbot, rounds = 4):
+def converse_amongst_philosophers(philosopher_1, philosopher_2, convo_topic, convo_chatbot, rounds = 2):
     '''
     Simulates a conversation between two phiosopher using Generative AI
 
@@ -54,7 +56,7 @@ def converse_amongst_philosophers(philosopher_1, philosopher_2, convo_topic, con
         - philosopher_2 (str): The name of the second philosopher
         - convo_topic (str): The topic of conversation about to take place between the philosophers
         - convo_chatbot (Gradio Chatbot): The chatbot interface that will hold the dialogue betweent the two philosophers
-        - rounds (int): The number of rounds of conversation that will take place (default = 4)
+        - rounds (int): The number of rounds of conversation that will take place (default = 2)
 
     Returns:
         - convo_chatbot (Gradio Chatbot): The chatbot interface that holds the dialogue betweent the two philosophers
@@ -77,7 +79,7 @@ def converse_amongst_philosophers(philosopher_1, philosopher_2, convo_topic, con
     You are first to speak.
     Please give your opening as {philosopher_1}
     Do not continue as {philosopher_2}.
-    Please keep your opening concise.
+    Please keep your opening under 500 words.
     '''
 
     # Simulating the opening of the dialogue with philsopher 1 kicking things off
@@ -96,19 +98,94 @@ def converse_amongst_philosophers(philosopher_1, philosopher_2, convo_topic, con
     "{philosopher_1_opener}"
     Respond back accordingly.
     Do not continue as {philosopher_1}.
-    Please keep your response concise.
+    Please keep your response under 500 words.
     '''
 
     # Simulating the opening response from philosopher 2 on hearing philosopher 1's opening
     philosopher_2_chat_flow.append({'role': 'user', 'content': philosopher_2_opener_prompt})
-    philosopher_2_opener = openai.ChatCompletion.create(
+    philosopher_2_response = openai.ChatCompletion.create(
         model = openai_model,
         messages = philosopher_2_chat_flow
     )['choices'][0]['message']['content']
-    philosopher_2_chat_flow.append({'role': 'assistant', 'content': philosopher_2_opener})
+    philosopher_2_chat_flow.append({'role': 'assistant', 'content': philosopher_2_response})
 
     # Appending the opening interaction to the chatbot
-    convo_chatbot.append((philosopher_1_opener, philosopher_2_opener))
+    convo_chatbot.append((philosopher_1_opener, philosopher_2_response))
+
+    # Continuing a general back-and-forth based on number of rounds
+    for _ in range(rounds):
+
+        # Prompt engineering the continued conversation for philosopher 1
+        philosopher_1_response_prompt = f'''
+        {philosopher_2} has responded with the following:
+        "{philosopher_2_response}"
+        Respond back accordingly.
+        Do not continue as {philosopher_2}.
+        Plase keep your response under 500 words.
+        '''
+
+        # Simulating the response from philosopher 1
+        philosopher_1_chat_flow.append({'role': 'user', 'content': philosopher_1_response_prompt})
+        philosopher_1_response = openai.ChatCompletion.create(
+            model = openai_model,
+            messages = philosopher_1_chat_flow
+        )['choices'][0]['message']['content']
+        philosopher_1_chat_flow.append({'role': 'assistant', 'content': philosopher_1_response})
+
+        # Prompt engineering the continued conversation for philosopher 2
+        philosopher_2_response_prompt = f'''
+        {philosopher_1} has responded with the following:
+        "{philosopher_1_response}"
+        Respond back accordingly.
+        Do not continue as {philosopher_1}.
+        Plase keep your response under 500 words.
+        '''
+
+        # Simulating the response from philosopher 2
+        philosopher_2_chat_flow.append({'role': 'user', 'content': philosopher_2_response_prompt})
+        philosopher_2_response = openai.ChatCompletion.create(
+            model = openai_model,
+            messages = philosopher_2_chat_flow
+        )['choices'][0]['message']['content']
+        philosopher_2_chat_flow.append({'role': 'assistant', 'content': philosopher_2_response})
+
+        # Appending this round of conversation to the chatbot
+        convo_chatbot.append((philosopher_1_response, philosopher_2_response))
+
+    # Prompt engineering a close of the conversation instigated by philosopher 1
+    philosopher_1_closer_prompt = f'''
+    {philosopher_2} has responded with the following:
+    "{philosopher_2_response}"
+    It's time to bring this conversation to a close. Please give one final thought before closing.
+    Do not continue as {philosopher_2}.
+    Please keep your response under 500 words.
+    '''
+
+    # Simulating the closer from philosopher 1
+    philosopher_1_chat_flow.append({'role': 'user', 'content': philosopher_1_closer_prompt})
+    philosopher_1_closer = openai.ChatCompletion.create(
+        model = openai_model,
+        messages = philosopher_1_chat_flow
+    )['choices'][0]['message']['content']
+    philosopher_1_chat_flow.append({'role': 'assistant', 'content': philosopher_1_closer})
+
+    # Prompt engineering a close of the conversation, finally wrapping things up with philosopher 2
+    philosopher_2_closer_prompt = f'''
+    {philosopher_1} is bringing the conversation to a close with this final remark:
+    "{philosopher_1_closer}"
+    Please bring this conversation to a close and keep your response under 500 words.
+    '''
+
+    # Simulating the closer from philosopher 2
+    philosopher_2_chat_flow.append({'role': 'user', 'content': philosopher_2_closer_prompt})
+    philosopher_2_closer = openai.ChatCompletion.create(
+        model = openai_model,
+        messages = philosopher_2_chat_flow
+    )['choices'][0]['message']['content']
+    philosopher_2_chat_flow.append({'role': 'assistant', 'content': philosopher_2_closer})
+
+    # Appending the closing remarks to the chatbot
+    convo_chatbot.append((philosopher_1_closer, philosopher_2_closer))
 
     return convo_chatbot
 
