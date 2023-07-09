@@ -16,7 +16,7 @@ openai.organization = keys_yaml['ORG_ID']
 openai.api_key = keys_yaml['API_KEY']
 
 # Setting the OpenAI model selection (may adjust later to be user changeable for those lucky folks out there with GPT-4 access ;) )
-openai_model = 'gpt-3.5-turbo'
+openai_model = 'gpt-4'
 
 # Setting the number of words to return in a response
 NUM_WORDS = 300
