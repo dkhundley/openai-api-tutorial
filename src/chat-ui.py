@@ -169,4 +169,4 @@ if __name__ == "__main__":
     chat_flow = initiate_chat_flow()
 
     # Launching the Gradio Chatbot
-    chat_ui.launch()
+    chat_ui.launch(share = True)
